@@ -12,16 +12,16 @@ driver = webdriver.PhantomJS()
 def main():
     driver.get('') # edit the url here
     html = BeautifulSoup(driver.page_source, 'lxml')
-    jobUrls = bsObj.findAll('a', {'href': re.compile('')})
+    jobUrls = html.findAll('a', {'href': re.compile('')})
     
     url = []
     for url in jobUrls:
         info.append() = getInfo(url)
 
 def getInfo(url):
-    driver.get(url) # edit the url here
+    driver.get(url)
     html = BeautifulSoup(driver.page_source, 'lxml')
-    requirement = bsObj.findAll('div', {'id': re.compile('')})
+    requirement = html.findAll('div', {'id': re.compile('')})
     return requirement
 
 if __name__ == '__main__':

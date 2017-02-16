@@ -7,8 +7,9 @@ from selenium import webdriver
 import re
 
 
+driver = webdriver.PhantomJS()
+
 def main():
-    driver = webdriver.PhantomJS()
     driver.get('') # edit the url here
     html = BeautifulSoup(driver.page_source, 'lxml')
     jobUrls = bsObj.findAll('a', {'href': re.compile('')})
@@ -17,8 +18,11 @@ def main():
     for url in jobUrls:
         info.append() = getInfo(url)
 
-def getInfo():
-    pass
+def getInfo(url):
+    driver.get(url) # edit the url here
+    html = BeautifulSoup(driver.page_source, 'lxml')
+    requirement = bsObj.findAll('div', {'id': re.compile('')})
+    return requirement
 
 if __name__ == '__main__':
     main()

@@ -14,9 +14,9 @@ def main():
     html = BeautifulSoup(driver.page_source, 'lxml')
     jobUrls = html.findAll('a', {'href': re.compile('')})
     
-    url = []
+    info = []
     for url in jobUrls:
-        info.append() = getInfo(url)
+        info.append(getInfo(url))
 
 def getInfo(url):
     driver.get(url)

@@ -27,7 +27,8 @@ def getInfo(url):
 
     tmp = ''
     for requirement1 in requirement:
-        tmp += requirement1.string
+        if requirement1.string is not None:
+            tmp += requirement1.string
         
     return tmp
 

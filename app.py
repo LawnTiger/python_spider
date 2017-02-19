@@ -19,9 +19,11 @@ def main():
         content = getInfo(url['href'])
         content = content.replace('\t', '').replace('举报', '').replace('分享', '')
         info.append(content)
-        print(info)
-        return
-    print(info[0])
+    
+    f = open('mark.txt', 'w')
+    for text in info:
+        f.write(text)
+    f.close()
 
 def getInfo(url):
     driver.get(url)

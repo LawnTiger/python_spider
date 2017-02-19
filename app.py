@@ -16,9 +16,9 @@ def main():
 
     info = []
     for url in jobUrls:
-#        print(url['href'])
-        info.append(getInfo(url['href']))
-    print(info)
+        content = getInfo(url['href'])
+        info.append(content)
+    print(info[0])
 
 def getInfo(url):
     driver.get(url)
@@ -26,9 +26,9 @@ def getInfo(url):
     requirement = html.find('div', {'class': re.compile('bmsg job_msg inbox')})
 
     tmp = ''
-    for requirement1 in requirement:
-        if requirement1.string is not None:
-            tmp += requirement1.string
+    for content in requirement:
+        if content.string is not None:
+            tmp += content.string
         
     return tmp
 

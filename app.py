@@ -17,7 +17,10 @@ def main():
     info = []
     for url in jobUrls:
         content = getInfo(url['href'])
+        content = content.replace('\t', '').replace('举报', '').replace('分享', '')
         info.append(content)
+        print(info)
+        return
     print(info[0])
 
 def getInfo(url):

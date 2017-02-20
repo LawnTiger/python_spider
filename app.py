@@ -10,8 +10,8 @@ import re
 driver = webdriver.PhantomJS()
 
 def main():
-    driver.get('http://search.51job.com/list/030200%252C00,000000,0000,00,9,07,php,2,1.html?lang=c&degreefrom=99&stype=1&workyear=99&cotype=99&jobterm=99&companysize=99&radius=-1&address=&lonlat=&postchannel=&list_type=&ord_field=&curr_page=&dibiaoid=0&landmark=&welfare=')
-#    driver.get('') # add the url here
+#    driver.get('http://search.51job.com/list/030200%252C00,000000,0000,00,9,07,php,2,1.html?lang=c&degreefrom=99&stype=1&workyear=99&cotype=99&jobterm=99&companysize=99&radius=-1&address=&lonlat=&postchannel=&list_type=&ord_field=&curr_page=&dibiaoid=0&landmark=&welfare=') # exemple
+    driver.get('') # add the url here
     html = BeautifulSoup(driver.page_source, 'html5lib')
     jobUrls = html.findAll('a', {'href': re.compile('http://jobs.51job.com/guangzhou*')})
 

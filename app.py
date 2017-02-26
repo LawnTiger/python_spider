@@ -18,7 +18,7 @@ def main():
     info = []
     for url in jobUrls:
         content = getInfo(url['href'])
-        content = content.replace('\t', '').replace('举报', '').replace('分享', '')
+        content = content.replace('\t', '').replace('举报', '').replace('分享', '') # 去掉无用内容
         info.append(content)
     
     f = open('mark.txt', 'w')
@@ -27,6 +27,13 @@ def main():
     f.close()
 
 def getInfo(url):
+    """获取招聘页招聘要求内容
+    
+    Arg:
+        url: 给定的招聘页的url
+    return: 
+        string类型招聘要求
+    """
     driver.get(url)
     html = BeautifulSoup(driver.page_source, 'html5lib')
     requirement = html.find('div', {'class': re.compile('bmsg job_msg inbox')})

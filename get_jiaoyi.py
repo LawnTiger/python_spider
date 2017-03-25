@@ -33,7 +33,10 @@ login_url = ""
 u = ['', '', '']
 
 
-def simulation_login() :
+def simulation_login():
+    """
+    模拟登陆：启用cookie，先发一次用户名密码获取验证码，后再发验证码
+    """
     cookie = cookielib.CookieJar()
     opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookie))
     urllib2.install_opener(opener)
@@ -58,6 +61,9 @@ def simulation_login() :
     print(str(content))
 
 def get_data(c_id):
+    """ 
+    获取数据：post请求数据
+    """
     if c_id % 500 == 0:
         print('-> ', c_id) # 输出进度
     form_data = urllib.urlencode({
@@ -100,6 +106,9 @@ def get_ids():
     return ids
 
 def deal(ids, filename):
+    """
+    处理数据，根据id获取数据写入文本
+    """
     for c_id in ids:
         c_id = c_id['id']
         data = get_data(c_id)
@@ -124,6 +133,7 @@ def main():
     # 文件名组
     filename_group = ['d'+str(i)+'.txt' for i in xrange(THREAD_COUNT)]
 
+    # 多线程
     for i in xrange(THREAD_COUNT):
         threads.append(threading.Thread(target=deal, args=(id_group[i], filename_group[i])))
 

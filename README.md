@@ -7,3 +7,7 @@
 #### 爬取某交易平台数据
 #### python2 用 urllib 发起请求，pymysql连接数据库，多线程抓取
 #### 感谢 `Andrew_liu` 写的[教程](http://www.jianshu.com/p/c3dbf8294c33)的指导
+
+# 3.pa_domain
+#### 爬取域名
+#### python2 用 urllib 发起请求，pymysql连接数据库，单、多线程抓取

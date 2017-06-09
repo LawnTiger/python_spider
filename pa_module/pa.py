@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 import time
 import socket
 import queue
+import http.cookiejar
 
 
 __author__ = 'https://github.com/LawnTiger'
@@ -25,8 +26,14 @@ class Pa:
         if is_proxy is True:
             for proxy in self.get_proxy():
                 self.proxy_queue.put(proxy)
+        print('count of proxies : ' + str(self.proxy_queue.qsize()))
 
     def request(self, url):
+        # set cookie
+        # cookie = http.cookiejar.CookieJar()
+        # cookie_pro = urllib.request.HTTPCookieProcessor(cookie)
+        # opener = urllib.request.build_opener(cookie_pro)
+        # urllib.request.install_opener(opener)
         if not self.proxy_queue.empty():
             self.add_proxy(url)
         result = self.make_request(url)
@@ -38,9 +45,9 @@ class Pa:
         else:
             http_type = 'http'
         proxy = self.proxy_queue.get()
-        self.proxy_queue.put(proxy)
-        proxy = {http_type: '114.230.122.176:808'}
         print(proxy)
+        self.proxy_queue.put(proxy)
+        proxy = {http_type: proxy}
         proxy_support = urllib.request.ProxyHandler(proxy)
         opener = urllib.request.build_opener(proxy_support)
         urllib.request.install_opener(opener)
@@ -62,7 +69,7 @@ class Pa:
     def get_proxy(self):
         print('getting proxy from web ...')
         ips = list()
-        for i in range(393, 394):
+        for i in range(389, 391):
             try:
                 req = urllib.request.Request('http://www.xicidaili.com/nt/' + str(i), headers=self._headers())
                 response = urllib.request.urlopen(req)

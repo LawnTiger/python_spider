@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import requests
-from bs4 import BeautifulSoup
 import queue
 import threading
 import json
@@ -17,7 +16,7 @@ check_url = 'http://m1.njzyxs.cn/check_wx_url.php?url='
 domain_queue = queue.Queue()
 check_queue = queue.Queue()
 
-THREAD_COUNT = 100
+THREAD_COUNT = 6
 
 conn = pymysql.connect(host='localhost',
                        user='root',
@@ -44,9 +43,9 @@ def get_domains(request_url, f):
         print(e)
         return
     if data.get('data'):
-        domain_queue.put(a.string)
-        f.write(a.string + '\n')
-        return [item['t_dn'] for item in data['data']]
+        for item in data['data']:
+            domain_queue.put(item['t_dn'])
+            f.write(item['t_dn'] + '\n')
 
 
 def check_domain(f):
@@ -59,13 +58,13 @@ def check_domain(f):
             response.encoding = 'utf-8'
             try:
                 result = json.loads(response.text)
+                f.write(response.text + '\n')
                 status = result['status']
             except Exception as e:
                 status = -1
                 print(e)
             data[key] = status
         data['domain'] = domain
-        f.write(json.dumps(data) + '\n')
         check_queue.put(data)
         domain_queue.task_done()
 
@@ -94,7 +93,7 @@ def main():
     t1.daemon = True
     t1.start()
 
-    for i in range(1, 1000):
+    for i in range(1, 10):
         if i % 50 == 0:
             print('--------------------' + str(i) + '-----------------------')
         try:

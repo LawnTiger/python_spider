@@ -53,17 +53,21 @@ def check_domain(f):
         domain = domain_queue.get()
         domains = {'original': domain, 'pre': 'abc.' + domain, 'rear': domain + '/abc', 'pr': 'abc.' + domain + '/abc'}
         data = dict()
+        is_error = False
         for key, domain1 in domains.items():
-            response = requests.get(check_url + domain1)
-            response.encoding = 'utf-8'
             try:
+                response = requests.get(check_url + domain1)
+                response.encoding = 'utf-8'
                 result = json.loads(response.text)
                 f.write(response.text + '\n')
                 status = result['status']
+                data[key] = status
             except Exception as e:
-                status = -1
                 print(e)
-            data[key] = status
+                is_error = True
+                break
+        if is_error:
+            continue
         data['domain'] = domain
         check_queue.put(data)
         domain_queue.task_done()
